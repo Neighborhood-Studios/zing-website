@@ -48,11 +48,10 @@ body {
   padding: 18px 56px;
 }
 .nav-logo {
-  font-family: 'Playfair Display', serif;
-  font-size: 36px; font-weight: 400; font-style: italic;
-  color: #fff; text-decoration: none;
-  letter-spacing: -0.5px;
+  text-decoration: none; display: flex; align-items: center;
 }
+.logo-img { height: 28px; width: auto; transition: filter .4s; }
+.nav.scrolled .logo-img { filter: invert(1); }
 .nav-right { display: flex; align-items: center; gap: 44px; }
 .nav-right a {
   color: rgba(255,255,255,.85); text-decoration: none;
@@ -434,7 +433,7 @@ section { padding: 120px 56px; }
 
 <!-- NAV -->
 <nav class="nav" id="nav">
-  <a href="#" class="nav-logo">Zing</a>
+  <a href="#" class="nav-logo"><img src="assets/zing-logo.svg" alt="Zing" class="logo-img"></a>
   <div class="nav-right" id="navLinks">
     <a href="#how">How It Works</a>
     <a href="#services">Services</a>
@@ -682,7 +681,7 @@ section { padding: 120px 56px; }
 
 <!-- FOOTER -->
 <footer class="footer">
-  <div class="footer-logo">Zing</div>
+  <div class="footer-logo"><img src="assets/zing-logo.svg" alt="Zing" style="height:28px;width:auto;"></div>
   <div class="footer-links">
     <a href="#how">How It Works</a>
     <a href="#services">Services</a>
