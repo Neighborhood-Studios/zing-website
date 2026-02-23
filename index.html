@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zing — À La Carte Apartment Cleaning</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --charcoal: #1A1A2E;
+  --sage: #7B9E6B;
+  --sage-dark: #6A8A5B;
+  --gold: #C4A862;
+  --off-white: #FAFAF7;
+  --cream: #F5F0E8;
+  --text: #1A1A2E;
+  --text-light: #6B6B7B;
+  --radius: 12px;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Inter', -apple-system, sans-serif;
+  color: var(--text);
+  background: var(--off-white);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── NAV ── */
+.nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 20px 48px;
+  transition: background .35s, box-shadow .35s, padding .35s;
+}
+.nav.scrolled {
+  background: rgba(255,255,255,.97);
+  box-shadow: 0 1px 12px rgba(0,0,0,.06);
+  padding: 14px 48px;
+}
+.nav-logo {
+  font-size: 28px; font-weight: 700; letter-spacing: -1px;
+  color: #fff; text-decoration: none;
+  transition: color .35s;
+}
+.nav.scrolled .nav-logo { color: var(--charcoal); }
+.nav-links { display: flex; gap: 32px; align-items: center; }
+.nav-links a {
+  color: rgba(255,255,255,.85); text-decoration: none;
+  font-size: 14px; font-weight: 500; letter-spacing: .3px;
+  transition: color .35s;
+}
+.nav.scrolled .nav-links a { color: var(--text-light); }
+.nav-links a:hover { color: #fff; }
+.nav.scrolled .nav-links a:hover { color: var(--charcoal); }
+.nav-cta {
+  background: var(--sage); color: #fff !important;
+  padding: 10px 24px; border-radius: 50px;
+  font-weight: 600; font-size: 14px;
+  transition: background .2s, transform .2s;
+}
+.nav-cta:hover { background: var(--sage-dark); transform: translateY(-1px); }
+.nav.scrolled .nav-cta { color: #fff !important; }
+
+/* Mobile menu */
+.nav-toggle { display: none; background: none; border: none; cursor: pointer; }
+.nav-toggle span { display: block; width: 24px; height: 2px; background: #fff; margin: 5px 0; transition: background .35s; }
+.nav.scrolled .nav-toggle span { background: var(--charcoal); }
+
+/* ── HERO ── */
+.hero {
+  position: relative; min-height: 100vh; display: flex;
+  align-items: center; justify-content: center;
+  overflow: hidden; text-align: center;
+}
+.hero-video {
+  position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+  object-fit: cover; z-index: 0;
+}
+.hero-overlay {
+  position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+  background: linear-gradient(180deg, rgba(16,16,30,.82) 0%, rgba(26,26,46,.88) 100%);
+  z-index: 1;
+}
+.hero-content {
+  position: relative; z-index: 2;
+  max-width: 780px; padding: 0 24px;
+}
+.hero h1 {
+  font-size: clamp(36px, 5.5vw, 64px);
+  font-weight: 700; line-height: 1.1;
+  color: #fff; letter-spacing: -1.5px;
+  margin-bottom: 24px;
+}
+.hero p {
+  font-size: clamp(16px, 2vw, 20px);
+  color: rgba(255,255,255,.75);
+  max-width: 600px; margin: 0 auto 40px;
+  font-weight: 300; line-height: 1.7;
+}
+.btn {
+  display: inline-block;
+  background: var(--sage); color: #fff;
+  padding: 16px 40px; border-radius: 50px;
+  font-size: 16px; font-weight: 600;
+  text-decoration: none; border: none; cursor: pointer;
+  transition: background .2s, transform .2s, box-shadow .2s;
+}
+.btn:hover {
+  background: var(--sage-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(123,158,107,.35);
+}
+.btn-outline {
+  background: transparent; border: 2px solid rgba(255,255,255,.3);
+  color: #fff;
+}
+.btn-outline:hover { background: rgba(255,255,255,.1); border-color: rgba(255,255,255,.6); box-shadow: none; }
+.scroll-indicator {
+  position: absolute; bottom: 32px; left: 50%; transform: translateX(-50%);
+  z-index: 2; animation: bounce 2s infinite;
+}
+.scroll-indicator svg { width: 24px; height: 24px; stroke: rgba(255,255,255,.5); fill: none; }
+@keyframes bounce {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50% { transform: translateX(-50%) translateY(8px); }
+}
+
+/* ── SECTIONS ── */
+section { padding: 120px 48px; }
+.section-label {
+  font-size: 12px; font-weight: 600; letter-spacing: 3px;
+  text-transform: uppercase; color: var(--sage);
+  margin-bottom: 16px;
+}
+.section-title {
+  font-size: clamp(28px, 4vw, 48px);
+  font-weight: 700; letter-spacing: -1px;
+  line-height: 1.15; margin-bottom: 20px;
+}
+.section-subtitle {
+  font-size: 18px; color: var(--text-light);
+  max-width: 560px; font-weight: 300; line-height: 1.7;
+}
+.center { text-align: center; }
+.center .section-subtitle { margin: 0 auto; }
+
+/* ── MAGIC CARDS ── */
+.magic { background: var(--off-white); }
+.magic-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px; max-width: 960px;
+  margin: 64px auto 0;
+}
+.magic-card {
+  background: #fff;
+  border-radius: var(--radius);
+  padding: 48px 32px;
+  text-align: center;
+  box-shadow: 0 2px 20px rgba(0,0,0,.04);
+  transition: transform .25s, box-shadow .25s;
+}
+.magic-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(0,0,0,.08);
+}
+.magic-icon { font-size: 40px; margin-bottom: 20px; }
+.magic-card h3 { font-size: 18px; font-weight: 600; margin-bottom: 8px; }
+.magic-price {
+  font-size: 40px; font-weight: 700; color: var(--sage);
+  letter-spacing: -1px;
+}
+.magic-price span { font-size: 18px; font-weight: 400; color: var(--text-light); }
+.magic-note {
+  margin-top: 48px; font-size: 16px;
+  color: var(--text-light); font-weight: 300;
+}
+
+/* ── HOW IT WORKS ── */
+.how { background: var(--cream); }
+.steps {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 48px; max-width: 1000px; margin: 64px auto 0;
+  position: relative;
+}
+.step { text-align: center; }
+.step-num {
+  width: 56px; height: 56px; border-radius: 50%;
+  background: var(--sage); color: #fff;
+  display: inline-flex; align-items: center; justify-content: center;
+  font-size: 20px; font-weight: 700;
+  margin-bottom: 24px;
+}
+.step h3 { font-size: 20px; font-weight: 600; margin-bottom: 12px; }
+.step p { font-size: 15px; color: var(--text-light); line-height: 1.7; max-width: 280px; margin: 0 auto; }
+
+/* ── WHY ZING ── */
+.why-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 48px; max-width: 1000px; margin: 64px auto 0;
+}
+.why-card { padding: 32px 0; }
+.why-icon {
+  width: 48px; height: 48px; border-radius: 12px;
+  background: rgba(123,158,107,.12);
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 20px; font-size: 22px;
+}
+.why-card h3 { font-size: 18px; font-weight: 600; margin-bottom: 10px; }
+.why-card p { font-size: 15px; color: var(--text-light); line-height: 1.7; }
+
+/* ── PACKAGES ── */
+.packages { background: var(--cream); }
+.pkg-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 24px; max-width: 1000px; margin: 64px auto 0;
+}
+.pkg-card {
+  background: #fff; border-radius: var(--radius);
+  padding: 40px 32px; text-align: center;
+  box-shadow: 0 2px 20px rgba(0,0,0,.04);
+  display: flex; flex-direction: column;
+  transition: transform .25s, box-shadow .25s;
+}
+.pkg-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(0,0,0,.08);
+}
+.pkg-card.featured { border: 2px solid var(--sage); }
+.pkg-badge {
+  display: inline-block; background: var(--sage); color: #fff;
+  font-size: 11px; font-weight: 600; letter-spacing: 1px;
+  text-transform: uppercase; padding: 4px 12px; border-radius: 50px;
+  margin-bottom: 16px;
+}
+.pkg-card h3 { font-size: 22px; font-weight: 700; margin-bottom: 8px; }
+.pkg-card .pkg-desc { font-size: 14px; color: var(--text-light); margin-bottom: 24px; line-height: 1.6; }
+.pkg-items { list-style: none; text-align: left; margin-bottom: 32px; flex: 1; }
+.pkg-items li {
+  padding: 8px 0; font-size: 14px; color: var(--text);
+  border-bottom: 1px solid #f0ede6;
+  display: flex; align-items: center; gap: 10px;
+}
+.pkg-items li::before { content: '✓'; color: var(--sage); font-weight: 700; }
+.pkg-card .btn { width: 100%; text-align: center; }
+.btn-sage-outline {
+  background: transparent; color: var(--sage);
+  border: 2px solid var(--sage); padding: 14px 32px;
+}
+.btn-sage-outline:hover { background: var(--sage); color: #fff; }
+
+/* ── STATS ── */
+.stats { background: var(--charcoal); color: #fff; text-align: center; }
+.stats .section-label { color: var(--gold); }
+.stats .section-title { color: #fff; }
+.stat-row {
+  display: flex; justify-content: center; gap: 80px;
+  margin-top: 64px; flex-wrap: wrap;
+}
+.stat-item {}
+.stat-num {
+  font-size: clamp(48px, 6vw, 72px);
+  font-weight: 700; color: var(--sage);
+  letter-spacing: -2px; line-height: 1;
+}
+.stat-label { font-size: 15px; color: rgba(255,255,255,.6); margin-top: 8px; font-weight: 300; }
+
+/* ── FAQ ── */
+.faq-list { max-width: 680px; margin: 64px auto 0; }
+.faq-item {
+  border-bottom: 1px solid #e8e4dc;
+}
+.faq-q {
+  width: 100%; padding: 24px 0; background: none; border: none;
+  font-family: inherit; font-size: 17px; font-weight: 600;
+  color: var(--text); cursor: pointer;
+  display: flex; justify-content: space-between; align-items: center;
+  text-align: left;
+}
+.faq-q::after {
+  content: '+'; font-size: 24px; font-weight: 300;
+  color: var(--sage); transition: transform .3s;
+}
+.faq-item.open .faq-q::after { content: '−'; }
+.faq-a {
+  max-height: 0; overflow: hidden;
+  transition: max-height .35s ease, padding .35s;
+}
+.faq-item.open .faq-a { max-height: 300px; }
+.faq-a p {
+  padding: 0 0 24px;
+  font-size: 15px; color: var(--text-light); line-height: 1.7;
+}
+
+/* ── CTA BANNER ── */
+.cta-banner {
+  background: var(--sage);
+  text-align: center; padding: 100px 48px;
+}
+.cta-banner h2 {
+  font-size: clamp(28px, 4vw, 44px);
+  font-weight: 700; color: #fff;
+  letter-spacing: -1px; margin-bottom: 12px;
+}
+.cta-banner p { color: rgba(255,255,255,.8); font-size: 18px; font-weight: 300; margin-bottom: 32px; }
+.btn-white {
+  background: #fff; color: var(--sage);
+}
+.btn-white:hover { background: #f0f0f0; color: var(--sage-dark); box-shadow: 0 8px 30px rgba(0,0,0,.15); }
+
+/* ── FOOTER ── */
+.footer {
+  background: var(--charcoal); color: rgba(255,255,255,.6);
+  padding: 64px 48px 40px; text-align: center;
+}
+.footer-logo {
+  font-size: 28px; font-weight: 700; color: #fff;
+  letter-spacing: -1px; margin-bottom: 24px;
+}
+.footer-links { display: flex; justify-content: center; gap: 32px; margin-bottom: 32px; flex-wrap: wrap; }
+.footer-links a { color: rgba(255,255,255,.5); text-decoration: none; font-size: 14px; transition: color .2s; }
+.footer-links a:hover { color: #fff; }
+.footer-copy { font-size: 13px; color: rgba(255,255,255,.3); }
+
+/* ── FADE ANIMATION ── */
+.fade-up { opacity: 0; transform: translateY(30px); transition: opacity .7s ease, transform .7s ease; }
+.fade-up.visible { opacity: 1; transform: translateY(0); }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+  .nav { padding: 16px 24px; }
+  .nav.scrolled { padding: 12px 24px; }
+  .nav-links { display: none; }
+  .nav-links.open {
+    display: flex; flex-direction: column;
+    position: absolute; top: 100%; left: 0; right: 0;
+    background: #fff; padding: 24px;
+    box-shadow: 0 8px 30px rgba(0,0,0,.08);
+    gap: 16px;
+  }
+  .nav-links.open a { color: var(--text); }
+  .nav-toggle { display: block; }
+  section { padding: 80px 24px; }
+  .magic-grid, .steps, .why-grid, .pkg-grid { grid-template-columns: 1fr; max-width: 400px; }
+  .stat-row { gap: 40px; }
+  .cta-banner { padding: 72px 24px; }
+  .footer { padding: 48px 24px 32px; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav" id="nav">
+  <a href="#" class="nav-logo">zing</a>
+  <div class="nav-links" id="navLinks">
+    <a href="#how">How It Works</a>
+    <a href="#services">Services</a>
+    <a href="#pricing">Pricing</a>
+    <a href="#faq">FAQ</a>
+    <a href="#get-started" class="nav-cta">Get Started</a>
+  </div>
+  <button class="nav-toggle" id="navToggle" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <video class="hero-video" autoplay muted loop playsinline poster="">
+    <!-- Replace src with your background video -->
+    <source src="" type="video/mp4">
+  </video>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <h1>Hotel-style cleaning.<br>In your building.<br>À la carte.</h1>
+    <p>Zing puts a dedicated cleaner in your apartment building so you can book bite-sized tasks — bathrooms for $23, floors mopped for $14, clothes folded for $12.</p>
+    <a href="#get-started" class="btn">Get Started</a>
+  </div>
+  <div class="scroll-indicator">
+    <svg viewBox="0 0 24 24" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+  </div>
+</section>
+
+<!-- MAGIC -->
+<section class="magic center" id="services">
+  <div class="fade-up">
+    <p class="section-label">À la carte cleaning</p>
+    <h2 class="section-title">This changes everything</h2>
+    <p class="section-subtitle">No minimums. No packages you don't need. Just the exact tasks you actually want done.</p>
+  </div>
+  <div class="magic-grid fade-up">
+    <div class="magic-card">
+      <div class="magic-icon">🛁</div>
+      <h3>Just the bathrooms</h3>
+      <p class="magic-price">$23 <span>/ visit</span></p>
+    </div>
+    <div class="magic-card">
+      <div class="magic-icon">🧹</div>
+      <h3>Just the floors</h3>
+      <p class="magic-price">$14 <span>/ visit</span></p>
+    </div>
+    <div class="magic-card">
+      <div class="magic-icon">👕</div>
+      <h3>Just the folding</h3>
+      <p class="magic-price">$12 <span>/ visit</span></p>
+    </div>
+  </div>
+  <p class="magic-note fade-up">More tasks available in the app — from dish washing to full apartment cleans.</p>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how center" id="how">
+  <div class="fade-up">
+    <p class="section-label">How it works</p>
+    <h2 class="section-title">Clean in three steps</h2>
+  </div>
+  <div class="steps fade-up">
+    <div class="step">
+      <div class="step-num">1</div>
+      <h3>Book in seconds</h3>
+      <p>Pick your tasks, choose a time. Same-day availability, always.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <h3>Your cleaner is already there</h3>
+      <p>A dedicated Zing pro works in your building every day. No strangers. No scheduling headaches.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <h3>Come home to clean</h3>
+      <p>That's it. Enjoy your space.</p>
+    </div>
+  </div>
+</section>
+
+<!-- WHY ZING -->
+<section class="why center">
+  <div class="fade-up">
+    <p class="section-label">Why Zing</p>
+    <h2 class="section-title">Housekeeping built for how<br>you actually live</h2>
+  </div>
+  <div class="why-grid fade-up">
+    <div class="why-card">
+      <div class="why-icon">🤝</div>
+      <h3>A familiar face</h3>
+      <p>The same cleaner every day — not rotating contractors. Someone your building knows and trusts.</p>
+    </div>
+    <div class="why-card">
+      <div class="why-icon">⚡</div>
+      <h3>On-demand, always</h3>
+      <p>Book a single task or set up a recurring routine. From dishes every night to bathrooms twice a month.</p>
+    </div>
+    <div class="why-card">
+      <div class="why-icon">✨</div>
+      <h3>Absurdly affordable</h3>
+      <p>A full-time on-site cleaner means prices that traditional cleaning services simply can't touch.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PACKAGES -->
+<section class="packages center" id="pricing">
+  <div class="fade-up">
+    <p class="section-label">Choose your clean</p>
+    <h2 class="section-title">Flexible plans, your way</h2>
+    <p class="section-subtitle">From a single task to a full apartment clean — pick what works for your life.</p>
+  </div>
+  <div class="pkg-grid fade-up">
+    <div class="pkg-card">
+      <h3>Quick Tasks</h3>
+      <p class="pkg-desc">Individual à la carte items, booked whenever you need them.</p>
+      <ul class="pkg-items">
+        <li>Bathroom cleaning</li>
+        <li>Floor mopping</li>
+        <li>Dish washing</li>
+        <li>Bed making</li>
+        <li>Clothes folding</li>
+        <li>Same-day booking</li>
+      </ul>
+      <a href="#get-started" class="btn btn-sage-outline">Get Started</a>
+    </div>
+    <div class="pkg-card featured">
+      <span class="pkg-badge">Most Popular</span>
+      <h3>Routines</h3>
+      <p class="pkg-desc">Set recurring schedules and let your clean run on autopilot.</p>
+      <ul class="pkg-items">
+        <li>Everything in Quick Tasks</li>
+        <li>Custom recurring schedules</li>
+        <li>Bathrooms 2x/month</li>
+        <li>Dishes every night</li>
+        <li>Mix and match cadences</li>
+        <li>Modify anytime</li>
+      </ul>
+      <a href="#get-started" class="btn">Get Started</a>
+    </div>
+    <div class="pkg-card">
+      <h3>Full Clean</h3>
+      <p class="pkg-desc">Complete apartment cleaning — one-time or on a recurring basis.</p>
+      <ul class="pkg-items">
+        <li>Everything in Routines</li>
+        <li>Full apartment deep clean</li>
+        <li>Kitchen, bath, floors, surfaces</li>
+        <li>One-time or recurring</li>
+        <li>Priority scheduling</li>
+        <li>Move-in/out ready</li>
+      </ul>
+      <a href="#get-started" class="btn btn-sage-outline">Get Started</a>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<section class="stats">
+  <div class="fade-up">
+    <p class="section-label">The proof</p>
+    <h2 class="section-title">Residents love Zing</h2>
+  </div>
+  <div class="stat-row fade-up">
+    <div class="stat-item">
+      <div class="stat-num">70%</div>
+      <div class="stat-label">say Zing is a top reason<br>they love their building</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">20s</div>
+      <div class="stat-label">to sign up —<br>scan a QR, you're in</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">Same day</div>
+      <div class="stat-label">availability for<br>every booking</div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq-section" id="faq">
+  <div class="center fade-up">
+    <p class="section-label">FAQ</p>
+    <h2 class="section-title">Questions? We've got you.</h2>
+  </div>
+  <div class="faq-list fade-up">
+    <div class="faq-item">
+      <button class="faq-q">How does Zing work in my building?</button>
+      <div class="faq-a"><p>Zing places a dedicated, professional cleaner in your building full-time. Because they're already on-site, you can book bite-sized tasks or full cleans with same-day availability — all through the Zing app.</p></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q">Do I need to give access to my apartment?</button>
+      <div class="faq-a"><p>Totally up to you. When booking, you choose your preferred access method — be home, leave an access code, coordinate with the front desk, or add detailed entry instructions in the app. Your comfort, your call.</p></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q">How do I sign up?</button>
+      <div class="faq-a"><p>It takes about 20 seconds. Scan a QR code at your building's Zing launch event or download the app directly. Create your account and you're ready to book your first task.</p></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q">Is my cleaner background checked?</button>
+      <div class="faq-a"><p>Yes. Every Zing professional undergoes a comprehensive background check, receives professional training, and is fully insured. And because the same person is in your building every day, you'll quickly get to know and trust them.</p></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q">What if I need to cancel?</button>
+      <div class="faq-a"><p>Life happens. You can cancel or reschedule any booking through the app with no hassle. Recurring routines can be paused or adjusted anytime.</p></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q">How much does it cost?</button>
+      <div class="faq-a"><p>That's the best part — à la carte pricing means you only pay for what you need. Bathrooms from $23, floors from $14, folding from $12. Full apartment cleans and custom routines are available too. No subscriptions required.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA BANNER -->
+<section class="cta-banner" id="get-started">
+  <div class="fade-up">
+    <h2>Ready for a cleaner home?</h2>
+    <p>Book your first task in under a minute.</p>
+    <a href="#" class="btn btn-white">Get Started</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-logo">zing</div>
+  <div class="footer-links">
+    <a href="#how">How It Works</a>
+    <a href="#services">Services</a>
+    <a href="#pricing">Pricing</a>
+    <a href="#faq">FAQ</a>
+    <a href="#">Contact</a>
+  </div>
+  <p class="footer-copy">© 2024 Zing Cleaning. All rights reserved.</p>
+</footer>
+
+<script>
+// Nav scroll effect
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 60);
+});
+
+// Mobile toggle
+const toggle = document.getElementById('navToggle');
+const links = document.getElementById('navLinks');
+toggle.addEventListener('click', () => links.classList.toggle('open'));
+
+// Close mobile menu on link click
+links.querySelectorAll('a').forEach(a => {
+  a.addEventListener('click', () => links.classList.remove('open'));
+});
+
+// FAQ accordion
+document.querySelectorAll('.faq-q').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const item = btn.parentElement;
+    const wasOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+    if (!wasOpen) item.classList.add('open');
+  });
+});
+
+// Fade-in on scroll
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
+}, { threshold: 0.15 });
+document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
