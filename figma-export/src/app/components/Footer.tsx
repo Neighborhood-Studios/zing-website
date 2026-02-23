@@ -4,9 +4,9 @@ export function Footer() {
   return (
     <footer className="bg-[#111211] py-16 md:py-20">
       <div className="max-w-[1200px] mx-auto px-6 md:px-12">
-        <div className="grid md:grid-cols-5 gap-12 md:gap-8 mb-16">
+        <div className="grid grid-cols-2 md:grid-cols-5 gap-8 md:gap-8 mb-16">
           {/* Logo + tagline */}
-          <div className="md:col-span-1">
+          <div className="col-span-2 md:col-span-1">
             <div className="w-[80px] h-[37px] relative mb-4">
               <ZingLogo />
             </div>

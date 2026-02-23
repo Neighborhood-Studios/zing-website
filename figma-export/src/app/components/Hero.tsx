@@ -3,7 +3,7 @@ import { ArrowRight } from "lucide-react";
 
 export function Hero() {
   return (
-    <section className="relative h-screen min-h-[700px] flex items-center justify-center overflow-hidden">
+    <section className="relative h-screen min-h-[600px] md:min-h-[700px] flex items-center justify-center overflow-hidden">
       {/* Background Video - swap the src to your own video */}
       <video
         className="absolute inset-0 w-full h-full object-cover"
@@ -20,13 +20,13 @@ export function Hero() {
       <div className="absolute inset-0 bg-gradient-to-b from-[#111211]/70 via-[#111211]/50 to-[#111211]/80" />
 
       {/* Content */}
-      <div className="relative z-10 text-center px-6 max-w-4xl mx-auto">
+      <div className="relative z-10 text-center px-5 sm:px-6 max-w-4xl mx-auto pt-16 md:pt-0">
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
-          className="text-[#C8956C] tracking-[0.3em] uppercase mb-6"
-          style={{ fontSize: "13px", letterSpacing: "0.3em" }}
+          className="text-[#C8956C] tracking-[0.3em] uppercase mb-4 md:mb-6"
+          style={{ fontSize: "11px", letterSpacing: "0.3em" }}
         >
           Cleaning, reimagined
         </motion.p>
@@ -35,10 +35,10 @@ export function Hero() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.4 }}
-          className="text-white mb-6"
+          className="text-white mb-4 md:mb-6"
           style={{
             fontFamily: "'DM Serif Display', serif",
-            fontSize: "clamp(2.5rem, 6vw, 4.5rem)",
+            fontSize: "clamp(2rem, 6vw, 4.5rem)",
             lineHeight: 1.1,
             fontWeight: 400,
           }}
@@ -52,8 +52,8 @@ export function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.6 }}
-          className="text-white/70 max-w-xl mx-auto mb-10"
-          style={{ fontSize: "18px", lineHeight: 1.7 }}
+          className="text-white/70 max-w-xl mx-auto mb-8 md:mb-10 px-2 sm:px-0"
+          style={{ fontSize: "clamp(15px, 2.5vw, 18px)", lineHeight: 1.7 }}
         >
           Zing places dedicated cleaners right in your building. Order
           bite-sized cleaning tasks whenever you need them — no commitments, no
@@ -91,7 +91,7 @@ export function Hero() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 1, delay: 1.2 }}
-          className="mt-16 flex items-center justify-center gap-8 flex-wrap"
+          className="mt-10 md:mt-16 flex items-center justify-center gap-4 sm:gap-8 flex-wrap"
         >
           <div className="text-white/40" style={{ fontSize: "13px", letterSpacing: "0.1em" }}>
             <span className="text-white/70">Bathrooms</span> from $23

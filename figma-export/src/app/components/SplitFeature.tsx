@@ -116,7 +116,7 @@ export function SplitFeature() {
               <ImageWithFallback
                 src="./cleaner-hero.jpg"
                 alt="Professional cleaner in modern apartment"
-                className="w-full h-[480px] object-cover"
+                className="w-full h-[280px] sm:h-[380px] lg:h-[480px] object-cover"
               />
             </div>
           </motion.div>

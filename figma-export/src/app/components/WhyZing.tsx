@@ -46,7 +46,7 @@ export function WhyZing() {
               <ImageWithFallback
                 src="./cleaner-hero.jpg"
                 alt="Happy resident relaxing in a clean apartment"
-                className="w-full h-[500px] object-cover"
+                className="w-full h-[300px] sm:h-[400px] lg:h-[500px] object-cover"
               />
             </div>
             {/* Floating stat card */}
@@ -55,7 +55,7 @@ export function WhyZing() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: 0.4 }}
-              className="absolute -bottom-6 -right-4 md:right-8 bg-white rounded-xl p-5 shadow-lg"
+              className="absolute -bottom-4 right-4 md:-bottom-6 md:right-8 bg-white rounded-xl p-4 md:p-5 shadow-lg"
             >
               <p
                 className="text-[#2C5F4B]"

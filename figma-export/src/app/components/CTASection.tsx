@@ -52,7 +52,7 @@ export function CTASection() {
             </p>
 
             {/* Email / Address input */}
-            <div className="flex flex-col sm:flex-row items-stretch gap-3 max-w-md mx-auto">
+            <div className="flex flex-col sm:flex-row items-stretch gap-3 max-w-md mx-auto px-2 sm:px-0">
               <input
                 type="text"
                 placeholder="Enter your building address"
