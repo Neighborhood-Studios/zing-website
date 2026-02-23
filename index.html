@@ -48,8 +48,12 @@ body {
   font-size: 28px; font-weight: 700; letter-spacing: -1px;
   color: #fff; text-decoration: none;
   transition: color .35s;
+  display: flex; align-items: center;
 }
+.logo-img { height: 32px; width: auto; display: block; }
+.logo-text { display: none; }
 .nav.scrolled .nav-logo { color: var(--charcoal); }
+.nav.scrolled .logo-img { filter: brightness(0) saturate(100%); }
 .nav-links { display: flex; gap: 32px; align-items: center; }
 .nav-links a {
   color: rgba(255,255,255,.85); text-decoration: none;
@@ -216,6 +220,25 @@ section { padding: 120px 48px; }
 .why-card h3 { font-size: 18px; font-weight: 600; margin-bottom: 10px; }
 .why-card p { font-size: 15px; color: var(--text-light); line-height: 1.7; }
 
+/* ── IMAGE BREAK ── */
+.image-break { padding: 0; background: var(--off-white); }
+.image-break-inner {
+  display: grid; grid-template-columns: 1fr 1fr;
+  max-width: 1200px; margin: 0 auto;
+  align-items: center; gap: 64px;
+  padding: 80px 48px;
+}
+.break-img {
+  width: 100%; border-radius: var(--radius);
+  object-fit: cover; aspect-ratio: 4/5;
+  box-shadow: 0 20px 60px rgba(0,0,0,.1);
+}
+.break-text .section-title { margin-bottom: 16px; }
+@media (max-width: 768px) {
+  .image-break-inner { grid-template-columns: 1fr; gap: 32px; padding: 60px 24px; }
+  .break-img { aspect-ratio: 3/4; }
+}
+
 /* ── PACKAGES ── */
 .packages { background: var(--cream); }
 .pkg-grid {
@@ -359,7 +382,7 @@ section { padding: 120px 48px; }
 
 <!-- NAV -->
 <nav class="nav" id="nav">
-  <a href="#" class="nav-logo">zing</a>
+  <a href="#" class="nav-logo"><img src="assets/zing-logo-white.jpg" alt="Zing" class="logo-img"><span class="logo-text">zing</span></a>
   <div class="nav-links" id="navLinks">
     <a href="#how">How It Works</a>
     <a href="#services">Services</a>
@@ -374,9 +397,8 @@ section { padding: 120px 48px; }
 
 <!-- HERO -->
 <section class="hero" id="hero">
-  <video class="hero-video" autoplay muted loop playsinline poster="">
-    <!-- Replace src with your background video -->
-    <source src="" type="video/mp4">
+  <video class="hero-video" autoplay muted loop playsinline poster="assets/cleaner-hero.jpg">
+    <source src="assets/hero-video.mp4" type="video/mp4">
   </video>
   <div class="hero-overlay"></div>
   <div class="hero-content">
@@ -462,6 +484,18 @@ section { padding: 120px 48px; }
       <div class="why-icon">✨</div>
       <h3>Absurdly affordable</h3>
       <p>A full-time on-site cleaner means prices that traditional cleaning services simply can't touch.</p>
+    </div>
+  </div>
+</section>
+
+<!-- IMAGE BREAK -->
+<section class="image-break">
+  <div class="image-break-inner fade-up">
+    <img src="assets/cleaner-hero.jpg" alt="Zing cleaner arriving at your door" class="break-img">
+    <div class="break-text">
+      <p class="section-label">Meet your cleaner</p>
+      <h2 class="section-title">She's already in<br>your building</h2>
+      <p class="section-subtitle">Your dedicated Zing professional is on-site every day — a trusted, familiar face ready to help whenever you need it.</p>
     </div>
   </div>
 </section>
